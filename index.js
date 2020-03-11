@@ -1,4 +1,5 @@
 /*
+    npm library https://www.npmjs.com/package/simple-git
     to work this script yo need to have two remotes, origin and santander
     for do this open a terminal in your project root and launch this command:
         *git remote add santander <https://github.com/yourGitPathInHere>
