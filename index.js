@@ -1,8 +1,3 @@
-/* workingDirPath = <your project path> */
-
-let workingDirPath = './C:\workspace\node-mock-server';
-const simpleGit = require('simple-git/promise');
-const git = simpleGit();
 /*
     steps app does for synchronize in two repositories
     .0  git status  ok
@@ -12,18 +7,25 @@ const git = simpleGit();
     .4  git commit -m ''  ok
     .3 git push develop santader
 */
+/* workingDirPath = <your project path> */
+let workingDirPath = './C:\workspace\node-mock-server';
+const simpleGit = require('simple-git/promise');
+const git = simpleGit();
 
 async function init() {
-    await git.status().then(statusProyect => {
-        console.log(statusProyect);        
-        if(!!statusProyect.modified.length){
-            console.error('app detected changes in git pool, please revise your project files');
-            const err = 'error when doing the status';
-            throw new Error(err);
+    return await git.status().then(statusProject => {
+        console.log(statusProject);        
+        if(!!statusProject.modified.length){
+            console.warn('app detected changes in git pool, please check next files:');
+            statusProject.modified.forEach(file => {
+                console.error(`-> ${file}`);
+            });
+            throw new Error();
         }
        return checkoutDevelop()
-    }).catch(err=>{ return err });
-    
+    }).catch(err=>{
+        throw err;
+    });
 }
 
 async function checkoutDevelop() {
@@ -47,22 +49,33 @@ async function pullOrigin(){
 
 async function gitAddCommitPush() {
     console.info('doing git add');
-    await git.add('./*').catch(err=> console.log(err));
+    await git.add('./*').catch(err=> {
+        console.log(err);
+        throw err;
+    });
     console.info('doing git commit');
     await git.commit("automatic commit").then(_=>{
         console.info('done git commit');
-    }).catch(err=> console.log(err));
-    console.info('doing git push');
+    }).catch(err=>{
+         console.log(err)
+        throw err;
+        });
 
-    return await git.push('santander', 'develop').then(data=>{
+    return gitPushOtherOrigin();
+}
+
+async function gitPushOtherOrigin() {
+    console.info('doing git push');
+    return await git.push('santander', 'develop').then(data => {
         console.log(`push from everis to santander is success >>> ${data}`);
         return data;
-    }).catch(err=>{
-        return err;
-    });    
+    }).catch(err => {
+        console.info(`error doing git push:  ${err}`);
+        throw err;
+    });
 }
 
 console.log('init app');
-init().then(data =>console.log(`exit app with operation => ${data}`)).catch(err =>{
-    console.error(`exit app with operation error ${err}`);
-});
+init()
+    .then(_=>console.log(`exit app with operation success`))
+    .catch(err => console.error(`exit app with operation error: ${err}`));
