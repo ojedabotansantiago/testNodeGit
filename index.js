@@ -52,7 +52,7 @@ async function gitAddCommitPush() {
     await git.commit("automatic commit").catch(err=> console.log(err));
     console.info('doing git push');
 
-    await git.push('santander', 'develop').then(data=>{
+    return await git.push('santander', 'develop').then(data=>{
         console.log(`push from everis to santander is success >>> ${data}`);
         return data;
     }).catch(err=>{
