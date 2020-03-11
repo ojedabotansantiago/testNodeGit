@@ -104,3 +104,9 @@ init()
   .catch(err => console.error(`exit app with operation ERROR: ${err}`));
 
   /* test 2 */
+
+
+
+  function test(){
+      
+  }
