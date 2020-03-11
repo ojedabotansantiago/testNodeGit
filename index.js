@@ -1,4 +1,7 @@
 /*
+    to work this script yo need to have two remotes, origin and santander
+    for do this open a terminal in your project root and launch this command:
+        *git remote add santander <https://github.com/yourGitPathInHere>
     steps app does for synchronize in two repositories
     .0  git status  ok
     .1  checkout develop everis ok
