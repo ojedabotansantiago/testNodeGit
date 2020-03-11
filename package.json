@@ -1,0 +1,14 @@
+{
+  "name": "nodegit",
+  "version": "1.0.0",
+  "description": "script to manage git",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodeTest"
+  },
+  "author": "santiago ojeda botan",
+  "license": "ISC",
+  "dependencies": {
+    "simple-git": "^1.131.0"
+  }
+}
