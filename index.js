@@ -89,7 +89,7 @@ async function gitPushOtherOrigin() {
   return await git
     .push('santander', 'develop')
     .then(data => {
-      console.log(`push from everis to santander is success >>> ${data}`);
+      console.log(`push from everis to santander is success ${data}`);
       return data;
     })
     .catch(err => {
@@ -102,3 +102,5 @@ console.log('init app');
 init()
   .then(_ => console.log(`exit app with operation SUCCESS`))
   .catch(err => console.error(`exit app with operation ERROR: ${err}`));
+
+  /* test 2 */
