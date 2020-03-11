@@ -4,7 +4,8 @@
   "description": "script to manage git",
   "main": "index.js",
   "scripts": {
-    "test": "nodeTest"
+    "test": "nodeTest",
+    "start": "node index.js"
   },
   "author": "santiago ojeda botan",
   "license": "ISC",
