@@ -1,34 +1,60 @@
-console.log('init app');
-
-/* workingDirPath = <your proyect path> */
+/* workingDirPath = <your project path> */
 
 let workingDirPath = './C:\workspace\node-mock-server';
 const simpleGit = require('simple-git/promise');
 const git = simpleGit();
-
-//git.pull('origin', 'master').then(data => console.log(data)).catch(err=> console.log('error al descargar la rama'));
-/* 
-    .0  git status  
-    .1  checkout develop everis
-    .2  pull develop everis
-    .3  git add .
-    .4  git commit -m "" 
+/*
+    steps app does for synchronize in two repositories
+    .0  git status  ok
+    .1  checkout develop everis ok
+    .2  pull develop Everis ok
+    .3  git add . ok
+    .4  git commit -m ''  ok
     .3 git push develop santader
 */
-async function init(params) {
-    console.log('init app');
-    git.status().then(statusProyect => {
+
+async function init() {
+    await git.status().then(statusProyect => {
         console.log(statusProyect);        
         if(!!statusProyect.modified.length){
-            console.error('se han detectado cambios por favor revisa los archivos');
+            console.error('app detected changes in git pool, please revise your project files');
+            const err = 'error when doing the status';
+            throw new Error(err);
         }
-        checkoutDevelop()
-    });
+       return checkoutDevelop()
+    }).catch(err=>{ return err });
     
 }
 
-function checkoutDevelop() {
-    
+async function checkoutDevelop() {
+  return await git.checkout('develop').then(data => {
+      console.log('checkout develop complete');
+      console.log(data);
+      return pullOrigin();
+    })
+    .catch(err => {
+        console.log(error)
+      return err;
+    });
 }
-console.log('init app')
-init().then(_=>console.log('exit app'));
+
+async function pullOrigin(){
+    return await git.pull('origin', 'master').then(data =>{
+         console.log(data)
+         gitAddCommitPush();
+    }).catch(err => console.log(' fail to download branch'));
+}
+
+async function gitAddCommitPush() {
+  await git.add('./*').commit("automatic commit").push('santander', 'develop').then(data=>{
+      console.log(`push from everis to santander is success >>> ${data}`);
+      return data;
+  }).catch(err=>{
+      return err;
+  });    
+}
+
+console.log('init app');
+init().then(data =>console.log(`exit app with operation => ${data}`)).catch(err =>{
+    console.error(`exit app with operation error ${err}`);
+});
