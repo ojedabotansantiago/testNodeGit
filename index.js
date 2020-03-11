@@ -46,14 +46,18 @@ async function pullOrigin(){
 }
 
 async function gitAddCommitPush() {
-  await git.add('./*').catch(err=> console.log(err));
-  await git.commit("automatic commit").catch(err=> console.log(err));
-  await git.push('santander', 'develop').then(data=>{
-      console.log(`push from everis to santander is success >>> ${data}`);
-      return data;
-  }).catch(err=>{
-      return err;
-  });    
+    console.info('doing git add');
+    await git.add('./*').catch(err=> console.log(err));
+    console.info('doing git commit');
+    await git.commit("automatic commit").catch(err=> console.log(err));
+    console.info('doing git push');
+
+    await git.push('santander', 'develop').then(data=>{
+        console.log(`push from everis to santander is success >>> ${data}`);
+        return data;
+    }).catch(err=>{
+        return err;
+    });    
 }
 
 console.log('init app');
