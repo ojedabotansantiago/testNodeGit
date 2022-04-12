@@ -10,6 +10,6 @@
   "author": "santiago ojeda botan",
   "license": "ISC",
   "dependencies": {
-    "simple-git": "^1.131.0"
+    "simple-git": "^3.5.0"
   }
 }
